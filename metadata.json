@@ -1,0 +1,5 @@
+{
+  "name": "Maintenance Hub: Food Processing",
+  "description": "Industrial-grade maintenance and troubleshooting platform for food processing mechanics. Features AI guidance, knowledge retention, and equipment management.",
+  "requestFramePermissions": ["microphone"]
+}

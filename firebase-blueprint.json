@@ -1,0 +1,84 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "System user with specific roles",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "Firebase Auth UID" },
+        "email": { "type": "string", "format": "email" },
+        "name": { "type": "string" },
+        "role": { "type": "string", "enum": ["admin", "lead", "technician"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "email", "role"]
+    },
+    "Equipment": {
+      "title": "Equipment",
+      "description": "Machinery in the food processing plant",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "model": { "type": "string" },
+        "serialNumber": { "type": "string" },
+        "location": { "type": "string" },
+        "description": { "type": "string" },
+        "manualUrl": { "type": "string", "format": "uri" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["name", "location"]
+    },
+    "MaintenanceLog": {
+      "title": "Maintenance Log",
+      "description": "Record of maintenance performed on equipment",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "equipmentId": { "type": "string" },
+        "technicianId": { "type": "string" },
+        "technicianName": { "type": "string" },
+        "type": { "type": "string", "enum": ["preventative", "repair", "emergency"] },
+        "description": { "type": "string" },
+        "resolution": { "type": "string" },
+        "partsUsed": { "type": "array", "items": { "type": "string" } },
+        "timestamp": { "type": "string", "format": "date-time" }
+      },
+      "required": ["equipmentId", "technicianId", "type", "description"]
+    },
+    "KnowledgeEntry": {
+      "title": "Knowledge Entry",
+      "description": "Troubleshooting tips and shared wisdom from seasoned techs",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "equipmentId": { "type": "string" },
+        "title": { "type": "string" },
+        "content": { "type": "string" },
+        "authorId": { "type": "string" },
+        "authorName": { "type": "string" },
+        "tags": { "type": "array", "items": { "type": "string" } },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["equipmentId", "title", "content", "authorId"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User profiles"
+    },
+    "/equipment/{equipmentId}": {
+      "schema": "Equipment",
+      "description": "Equipment inventory"
+    },
+    "/equipment/{equipmentId}/logs/{logId}": {
+      "schema": "MaintenanceLog",
+      "description": "Maintenance history for specific equipment"
+    },
+    "/knowledge": {
+      "schema": "KnowledgeEntry",
+      "description": "Global knowledge base for troubleshooting"
+    }
+  }
+}
